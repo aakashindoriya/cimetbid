@@ -5,19 +5,15 @@ const argon2 = require("argon2")
 
 const SIGNUP = async (req, res) => {
     try {
-        const { username, email, password, role } = req.body;
-
-        if (role === 'admin' ) {
-            return res.status(403).send({ error: 'Admin can not be created' });
-        }
+        const { username, email, password } = req.body;
         let user = await User.findOne({ email });
         if (user) {
             return res.status(400).send({ error: 'User already exists' });
         }
         const hashedPassword = await argon2.hash(password);
-        user = await User.create({ username, email, password: hashedPassword, role });
-        const token = jwt.sign({ email, username, _id: user._id, role }, process.env.JWT_SECRET);
-        res.status(201).send({ email, username, _id: user._id, role, token });
+        user = await User.create({ username, email, password: hashedPassword });
+        const token = jwt.sign({ email, username, _id: user._id }, process.env.JWT_SECRET);
+        res.status(201).send({ email, username, _id: user._id, token });
     } catch (err) {
         res.status(500).send(err.message);
     }
