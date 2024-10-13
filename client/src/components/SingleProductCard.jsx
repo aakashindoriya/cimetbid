@@ -1,8 +1,10 @@
 import { Box, Image, Text, Badge, VStack, HStack, Button } from "@chakra-ui/react";
 
 const SingleProductCard = ({ product }) => {
+    console.log(product)
   return (
     <Box
+      minW={"70%"}
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
@@ -15,12 +17,11 @@ const SingleProductCard = ({ product }) => {
         <Image
           src={product.photos[0]}
           alt={product.title}
-          boxSize="100%"
-          objectFit="cover"
+          
           mb={4}
         />
       )}
-      <VStack align="start" spacing={2}>
+      <VStack align="start" spacing={2} >
         <HStack justify="space-between" width="100%">
           <Text fontWeight="bold" fontSize="xl">
             {product.title}
