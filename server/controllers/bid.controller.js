@@ -1,12 +1,11 @@
 const Product = require('../models/product.model');
 const Bid = require('../models/bid.model');
-const User = require('../models/user.model');
 
-// Create a bid for a specific product
 const createBid = async (req, res) => {
   try {
     const { productId } = req.params;
-    const {  bidAmount ,userId} = req.body;
+    const {  bidAmount } = req.body;
+    const userId = req.user._id
     
     const product = await Product.findById(productId);
     if (!product) {
@@ -38,6 +37,10 @@ const updateBid = async (req, res) => {
     if (!bid) {
       return res.status(404).send({ message: 'Bid not found' });
     }
+    const userId = req.user._id;
+    if (bid.user.toString()!== userId.toString()) {
+      return res.status(403).send({ message: 'Unauthorized to update this bid' });
+    }
     const product = await Product.findById(bid.product);
     if (bidAmount <= product.startingPrice) {
       return res.status(400).send({ message: 'New bid amount must be higher than the starting price' });
@@ -54,10 +57,15 @@ const updateBid = async (req, res) => {
 
 const deleteBid = async (req, res) => {
   try {
+    const userId = req.user._id;
+    
     const { bidId } = req.params;
     const bid = await Bid.findByIdAndDelete(bidId);
     if (!bid) {
       return res.status(404).send({ message: 'Bid not found' });
+    }
+    if (bid.user.toString()!== userId.toString()) {
+      return res.status(403).send({ message: 'Unauthorized to delete this bid' });
     }
     await Product.findByIdAndUpdate(bid.product, { $pull: { bids: bidId } });
     res.status(204).send({ message: 'Bid deleted successfully' });
