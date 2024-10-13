@@ -12,8 +12,8 @@ const SIGNUP = async (req, res) => {
         }
         const hashedPassword = await argon2.hash(password);
         user = await User.create({ username, email, password: hashedPassword });
-        const token = jwt.sign({ email, username, _id: user._id }, process.env.JWT_SECRET);
-        res.status(201).send({ email, username, _id: user._id, token });
+        const token = jwt.sign({ email, username, _id: user._id ,role:user.role}, process.env.JWT_SECRET);
+        res.status(201).send({ user, token });
     } catch (err) {
         res.status(500).send(err.message);
     }
@@ -34,7 +34,7 @@ const LOGIN = async (req, res) => {
         }
         const { username, _id, role } = user
         const token = jwt.sign({ email, username, _id, role }, process.env.JWT_SECRET);
-        res.status(201).send({ email, username, _id, token, role });
+        res.status(201).send({ user, token });
     } catch (err) {
         console.error(err);
         res.status(500).send(err.message);
