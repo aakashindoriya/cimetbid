@@ -36,10 +36,10 @@ const createProduct = async (req, res) => {
 const getProducts = async (req, res) => {
     try {
       const products = await Product.find({ status: 'available' })
-        // .populate({
-        //   path: 'bids', 
-        //   populate: { path: 'user', select: 'name email' }  
-        // })
+        .populate({
+          path: 'bids', 
+          populate: { path: 'user', select: 'name email' }  
+        })
         .sort({ createdAt: -1 });
   
       res.status(200).send(products);
@@ -55,10 +55,10 @@ const getProductById = async (req, res) => {
     const productId = req.params.id;
 
     const product = await Product.find({_id:productId})
-    //   .populate({
-    //     path: 'bids',
-    //     populate: { path: 'user', select: 'name email' },
-    //   });
+      .populate({
+        path: 'bids',
+        populate: { path: 'user', select: 'name email' },
+      });
 
     if (!product) {
       return res.status(404).send({ message: 'Product not found' });
