@@ -38,7 +38,7 @@ const getProducts = async (req, res) => {
       const products = await Product.find({ status: 'available' })
         .populate({
           path: 'bids', 
-          populate: { path: 'user', select: 'name email' }  
+          populate: { path: 'user', select: 'username email' }  
         })
         .sort({ createdAt: -1 });
   
@@ -57,7 +57,7 @@ const getProductById = async (req, res) => {
     const product = await Product.find({_id:productId})
       .populate({
         path: 'bids',
-        populate: { path: 'user', select: 'name email' },
+        populate: { path: 'user', select: 'username email' },
       });
 
     if (!product) {

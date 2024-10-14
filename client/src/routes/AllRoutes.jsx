@@ -6,6 +6,8 @@ import CreateProduct from './CreateProduct';
 import UserLayout from './UserLayout';
 import AdminLayout from './AdminLayout';
 import NotFound from './NotFound';
+import SignupForm from './SignupForm';
+import LoginForm from './LoginForm';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
             element: <CreateProduct />,
           },
         ],
+      },
+      {
+        path:"/signup",
+        element:<SignupForm />
+      },
+      {
+        path:"/login",
+        element:<LoginForm/>
       },
       {
         path: '*',

@@ -1,7 +1,9 @@
 import { Box, Image, Text, Badge, VStack, HStack, Button } from "@chakra-ui/react";
+import BidForm from "./BidForm";
+import { useNavigate } from "react-router-dom";
 
 const SingleProductCard = ({ product }) => {
-    console.log(product)
+const navigate=useNavigate()
   return (
     <Box
       minW={"70%"}
@@ -15,6 +17,8 @@ const SingleProductCard = ({ product }) => {
     >
       {product.photos?.[0] && (
         <Image
+          _hover={{cursor:"pointer"}}
+          onClick={()=>{navigate("product/"+product._id)}}
           src={product.photos[0]}
           alt={product.title}
           
@@ -37,9 +41,7 @@ const SingleProductCard = ({ product }) => {
         <Text fontWeight="bold" fontSize="lg">
           Starting Price: ${product.startingPrice}
         </Text>
-        <Button colorScheme="blue" size="sm">
-          Place Bid
-        </Button>
+        <BidForm productId={product._id} />
       </VStack>
     </Box>
   );

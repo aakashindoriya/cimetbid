@@ -43,8 +43,9 @@ const productSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(getProductById.fulfilled, (state, action) => {
+        
         state.status = 'succeeded';
-        state.selectedProduct = action.payload;
+        state.selectedProduct = action.payload[0];
       })
       .addCase(getProductById.rejected, (state, action) => {
         state.status = 'failed';
@@ -111,10 +112,7 @@ const productSlice = createSlice({
       })
       .addCase(deleteBid.fulfilled, (state, action) => {
         state.bidStatus = 'succeeded';
-        const productIndex = state.products.findIndex((product) => product._id === action.payload.productId);
-        if (productIndex !== -1) {
-          state.products[productIndex].bids = state.products[productIndex].bids.filter((bid) => bid._id !== action.payload.bidId);
-        }
+        state.selectedProduct.bids=state.selectedProduct.bids.filter((el)=>el._id!==action.payload.bidId)
       })
       .addCase(deleteBid.rejected, (state, action) => {
         state.bidStatus = 'failed';

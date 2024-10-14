@@ -1,16 +1,21 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Box, Button, FormControl, FormLabel, Input, FormErrorMessage, VStack } from '@chakra-ui/react';
-
+import {useDispatch} from "react-redux"
+import { registerUser } from '../redux/actions/authAction';
 const SignupForm = () => {
+  const dispatch=useDispatch()
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+      let username=data.name
+      dispatch(registerUser({...data,username}))
+      reset()
   };
 
   return (
