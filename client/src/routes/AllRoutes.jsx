@@ -1,52 +1,56 @@
-import { createBrowserRouter } from 'react-router-dom';
-import App from '../App';
-import Home from './Home';
-import ProductDetails from './ProductDetails';
-import CreateProduct from './CreateProduct';
-import UserLayout from './UserLayout';
-import AdminLayout from './AdminLayout';
-import NotFound from './NotFound';
-import SignupForm from './SignupForm';
-import LoginForm from './LoginForm';
+import { createBrowserRouter } from "react-router-dom";
+import App from "../App";
+import Home from "./Home";
+import ProductDetails from "./ProductDetails";
+import CreateProduct from "./CreateProduct";
+import UserLayout from "./UserLayout";
+import AdminLayout from "./AdminLayout";
+import NotFound from "./NotFound";
+import SignupForm from "./SignupForm";
+import LoginForm from "./LoginForm";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <App />,
     children: [
       {
         element: <UserLayout />,
         children: [
           {
-            path: '/',
+            path: "/",
             element: <Home />,
           },
           {
-            path: 'product/:id',
+            path: "product/:id",
             element: <ProductDetails />,
           },
         ],
       },
       {
-        path: '/admin',
+        path: "/admin",
         element: <AdminLayout />,
         children: [
           {
-            path: 'create-product',
+            index:true,
+            element:<Home />
+          },
+          {
+            path: "create-product",
             element: <CreateProduct />,
           },
         ],
       },
       {
-        path:"/signup",
-        element:<SignupForm />
+        path: "/signup",
+        element: <SignupForm />,
       },
       {
-        path:"/login",
-        element:<LoginForm/>
+        path: "/login",
+        element: <LoginForm />,
       },
       {
-        path: '*',
+        path: "*",
         element: <NotFound />,
       },
     ],

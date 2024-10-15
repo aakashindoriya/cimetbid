@@ -28,13 +28,28 @@ const authSlice = createSlice({
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
+      state.isLoading=false
+      state.error=null
       saveAuthState(state);
     });
+    builder.addCase(loginUser.pending,(state)=>{state.isLoading=true,state.error=null})
+    builder.addCase(loginUser.rejected,(state,action)=>{
+      console.log(action)
+      state.isLoading=false
+      state.error=action.payload
+    })
     builder.addCase(registerUser.fulfilled, (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
+      state.isLoading=false
+      state.error=null
       saveAuthState(state);
     });
+    builder.addCase(registerUser.pending,(state)=>{state.isLoading=true,state.error=null})
+    builder.addCase(registerUser.rejected,(state,action)=>{
+      state.error=action.payload
+      state.isLoading=false
+    })
     builder.addCase(logoutUser.fulfilled, (state) => {
       state.user = null;
       state.token = null;

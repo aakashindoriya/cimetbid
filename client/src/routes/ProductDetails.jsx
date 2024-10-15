@@ -64,9 +64,6 @@ const ProductDetails = () => {
           <Text fontWeight="bold" fontSize="lg">
             Starting Price: ${product?.startingPrice}
           </Text>
-          <Button colorScheme="blue" size="sm">
-            Place Bid
-          </Button>
         </VStack>
       </Box>
 

@@ -14,17 +14,17 @@ const createProduct = async (req, res) => {
       startingPrice,
     };
 
+    const { address, photos } = req.body;
     if (type === 'property') {
-      const { address, photos } = req.body;
       productData.address = address;
-      productData.photos = photos || [];
     } else if (type === 'vehicle') {
       const { number, details, vehicleType } = req.body;
       productData.number = number;
       productData.details = details;
       productData.vehicleType = vehicleType;
     }
-
+    productData.photos = photos || [];
+    console.log(productData)
     const product = await  Product.create(productData);
     res.status(201).send(product);
   } catch (error) {
@@ -83,21 +83,21 @@ const updateProduct = async (req, res) => {
     if (product.type === 'property') {
       const { address, photos } = updates;
       if (address) product.address = address;
-      if (photos) product.photos = photos;
+      
     } else if (product.type === 'vehicle') {
       const { number, details, vehicleType } = updates;
       if (number) product.number = number;
       if (details) product.details = details;
       if (vehicleType) product.vehicleType = vehicleType;
     }
-
+    if (updates.photos){
+      product.photos=updates.photos
+    }
     if (updates.title) product.title = updates.title;
     if (updates.description) product.description = updates.description;
     if (updates.startingPrice) product.startingPrice = updates.startingPrice;
-
     await product.save();
-
-    res.status(201).send(product);
+    res.status(201).send(product)
   } catch (error) {
     console.error('Error in updateProduct:', error);
     res.status(500).send({ message: 'Server error' });
@@ -107,7 +107,7 @@ const updateProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const productId = req.params.id;
-
+    
     let product = await Product.deleteOne({_id:productId});
 
     res.status(204).send({ message: 'Product deleted successfully' });

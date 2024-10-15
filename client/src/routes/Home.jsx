@@ -12,8 +12,8 @@ const Home = () => {
     dispatch(fetchProducts())
   },[])
   return (
-    <Box p={4}>
-      <SimpleGrid w="full" columns={{ base: 1, md: 1, lg: 1 }} spacing={4}>
+    <Box p={4} >
+      <SimpleGrid w="full" columns={{ base: 1, md: 3, lg: 4 }} spacing={2}>
         {products.map((product) => (
           <SingleProductCard key={product._id} product={product} />
         ))}
