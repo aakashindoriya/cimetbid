@@ -1,5 +1,5 @@
 const Product = require('../models/product.model');
-
+const Bid = require("../models/bid.model")
 const createProduct = async (req, res) => {
   try {
     const { type, title, description, startingPrice } = req.body;
@@ -117,5 +117,37 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const confirmBid = async (req, res) => {
+  const { productId, bidId } = req.params;
+
+  try {
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).send({ error: 'Product not found' });
+    }
+
+    const successfulBid = await Bid.findByIdAndUpdate(
+      bidId, 
+      { status: 'successful' }, 
+      { new: true }
+    );
+
+    if (!successfulBid) {
+      return res.status(404).send({ error: 'Bid not found' });
+    }
+
+    await Bid.updateMany(
+      { _id: { $ne: bidId }, product: productId }, 
+      { status: 'canceled' }
+    );
+
+    product.status = 'sold';
+    await product.save();
+
+    res.status(200).send({ message: 'Bid confirmed successfully', product, successfulBid });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
 
 module.exports = {createProduct,deleteProduct,getProductById,updateProduct,getProducts}

@@ -6,7 +6,10 @@ const createBid = async (req, res) => {
     const { productId } = req.params;
     const {  bidAmount } = req.body;
     const userId = req.user._id
-    
+    const existingBid = await Bid.findOne({ product: productId, user: userId });
+    if (existingBid) {
+      return res.status(400).send({ message: 'You have already placed a bid on this product.' });
+    }
     const product = await Product.findById(productId);
     if (!product) {
       return res.status(404).send({ message: 'Product not found' });
@@ -75,4 +78,15 @@ const deleteBid = async (req, res) => {
   }
 };
 
-module.exports = { createBid, updateBid, deleteBid };
+const getUserBids = async (req, res) => {
+  try {
+    const userId = req.user._id;  
+    const bids = await Bid.find({ user: userId }).populate('product', 'title type startingPrice');
+    res.status(200).send(bids);
+  } catch (error) {
+    res.status(500).send({ message: 'Server error' });
+  }
+};
+
+
+module.exports = { createBid, updateBid, deleteBid ,getUserBids };

@@ -142,7 +142,7 @@ export default function Footer() {
             flexGrow: 1,
             ml: 8,
           }}>
-          <Logo />
+          {/* <Logo /> */}
         </Flex>
         <Text pt={6} fontSize={'sm'} textAlign={'center'}>
           © 2024 cimet All rights reserved

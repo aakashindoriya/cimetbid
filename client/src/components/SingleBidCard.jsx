@@ -2,6 +2,7 @@ import { Box, Text, Badge, VStack, HStack, Button } from "@chakra-ui/react";
 import { MdDeleteOutline } from "react-icons/md";
 import {useDispatch, useSelector} from "react-redux"
 import { deleteBid } from "../redux/actions/bidAction";
+import ConfirmSale from "./ConfirmSale";
 const SingleBidCard = ({ bid }) => {
   const dispatch =useDispatch()
   const {user}=useSelector((s)=>s.auth)
@@ -24,6 +25,9 @@ const SingleBidCard = ({ bid }) => {
             {
               bid.user._id===user?._id&&<MdDeleteOutline size={"20px"} onClick={()=>dispatch(deleteBid({ bidId:bid._id, productId:bid.product }))} />
 
+            }
+            {
+              user?.role==="admin"&&<ConfirmSale name={bid.user.username} amount={bid.amount} bidId={bid._id} />
             }
           <Badge
             colorScheme={

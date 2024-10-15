@@ -204,7 +204,11 @@ const ProductForm = () => {
             </>
           )}
 
-          <Button mt={4} colorScheme="blackAlpha"  type="submit" w={"full"}>
+          <Button mt={4}  bg={'blue.400'}
+                  color={'white'}
+                  _hover={{
+                    bg: 'blue.500',
+                  }}  type="submit" w={"full"}>
             Submit
           </Button>
         </form>
