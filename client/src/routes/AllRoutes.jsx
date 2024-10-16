@@ -8,6 +8,7 @@ import AdminLayout from "./AdminLayout";
 import NotFound from "./NotFound";
 import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
+import MyBids from "./MyBids";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
             path: "product/:id",
             element: <ProductDetails />,
           },
+          {
+            path:"my-bids",
+            element:<MyBids/>
+          }
         ],
       },
       {

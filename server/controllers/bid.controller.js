@@ -81,7 +81,7 @@ const deleteBid = async (req, res) => {
 const getUserBids = async (req, res) => {
   try {
     const userId = req.user._id;  
-    const bids = await Bid.find({ user: userId }).populate('product', 'title type startingPrice');
+    const bids = await Bid.find({ user: userId }).populate('product', 'title type startingPrice photos');
     res.status(200).send(bids);
   } catch (error) {
     res.status(500).send({ message: 'Server error' });

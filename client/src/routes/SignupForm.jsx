@@ -128,9 +128,9 @@ export default function SignupCard() {
                         message: 'Password must be at least 6 characters long',
                       },
                       pattern: {
-                        value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-                        message: 'Password must contain at least one letter and one number',
-                      },
+                        value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/,
+                        message: 'Password must contain at least one letter, one number, and one special character',
+                      }
                     })}
                   />
                   <InputRightElement h={'full'}>

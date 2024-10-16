@@ -42,7 +42,7 @@ export default function Navbar() {
           <Box>
             <NavLink to="/">Logo</NavLink>
           </Box>
-          { user.role==="admin"&&<Text>Admin panal</Text>}
+          { user?.role==="admin"&&<Text>Admin panal</Text>}
 
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>
@@ -79,7 +79,9 @@ export default function Navbar() {
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem>My bids</MenuItem>
+                  <MenuItem onClick={()=>{
+                    navigate("/my-bids")
+                  }}>My bids</MenuItem>
                   {user?.role==="admin" && (
                     <MenuItem onClick={() => navigate("/admin/create-product")}>
                       create product
