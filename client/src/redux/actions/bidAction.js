@@ -48,3 +48,17 @@ export const deleteBid = createAsyncThunk(
     }
   }
 );
+
+export const confirmBid=createAsyncThunk("bid/confirm",async({productId, bidId })=>{
+  try {
+   let {data}= await axios.put(`${import.meta.env.VITE_BASEURL}/product/bid-confirm`,{productId, bidId},{
+      headers:{
+        Authorization:JSON.parse(localStorage.getItem("auth"))?.token||""
+      }
+  })
+  console.log(data)
+  return data
+  } catch (error) {
+    return rejectWithValue(error?.response?.data);
+  }
+})

@@ -12,13 +12,11 @@ export const fetchProducts = createAsyncThunk('product/fetchProducts', async (_,
 
 export const createProduct = createAsyncThunk('product/createProduct', async (productData, { rejectWithValue }) => {
   try {
-    console.log(productData)
     const {data} = await axios.post(`${import.meta.env.VITE_BASEURL}/product/create`, productData,{
       headers:{
         Authorization:JSON.parse(localStorage.getItem("auth"))?.token||""
       }
     });
-    console.log(data,"res")
     return data;
   } catch (error) {
     console.log(error)
@@ -50,14 +48,14 @@ export const updateProduct = createAsyncThunk('product/updateProduct', async ({ 
   }
 });
 
-export const deleteProduct = createAsyncThunk('product/deleteProduct', async (id, { rejectWithValue }) => {
+export const deleteProduct = createAsyncThunk('product/deleteProduct', async ({productId}, { rejectWithValue }) => {
   try {
-    await axios.delete(`${import.meta.env.VITE_BASEURL}/product/${id}`,{
+    await axios.delete(`${import.meta.env.VITE_BASEURL}/product/${productId}`,{
       headers:{
         Authorization:JSON.parse(localStorage.getItem("auth"))?.token||""
       }
     });
-    return id;
+    return productId;
   } catch (error) {
     return rejectWithValue(error.response.data);
   }

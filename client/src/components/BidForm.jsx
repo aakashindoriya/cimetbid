@@ -57,13 +57,6 @@ export default function BidForm({ productId }) {
                   setTimeout(() => {
                     navigate("product/" + productId);
                   }, 200);
-                  toast({
-                    title: `Bid placed successfully`,
-                    status: "success",
-                    duration: 500,
-                    isClosable: true,
-                    position: "top",
-                  });
                 });
               }}
             >

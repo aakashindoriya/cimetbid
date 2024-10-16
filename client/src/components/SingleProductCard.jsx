@@ -11,6 +11,7 @@ import {
 import BidForm from "./BidForm";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Delete from "./Delete";
 
 const SingleProductCard = ({ product }) => {
   const { user } = useSelector((store) => store.auth);
@@ -62,12 +63,18 @@ const SingleProductCard = ({ product }) => {
         {!user && <Text>Please log in to place a bid</Text>}
         {user && user?.role !== "admin" && <BidForm productId={product._id} />}
         {user?.role === "admin" && (
-          <Button
-            colorScheme="teal"
+          <HStack maxW="100%">
+            <Button
+            colorScheme="black"
+            variant={"outline"}
+            width={"full"}
+            fontSize={"sm"}
             onClick={() => navigate("/admin/create-product?id=" + product._id)}
           >
             Edit Product
           </Button>
+          <Delete productId={product._id} />
+          </HStack>
         )}
       </VStack>
     </Box>

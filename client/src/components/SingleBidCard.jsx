@@ -1,12 +1,12 @@
 import { Box, Text, Badge, VStack, HStack, Button } from "@chakra-ui/react";
 import { MdDeleteOutline } from "react-icons/md";
-import {useDispatch, useSelector} from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { deleteBid } from "../redux/actions/bidAction";
 import ConfirmSale from "./ConfirmSale";
 const SingleBidCard = ({ bid }) => {
-  const dispatch =useDispatch()
-  const {user}=useSelector((s)=>s.auth)
- 
+  const dispatch = useDispatch();
+  const { user } = useSelector((s) => s.auth);
+
   return (
     <Box
       borderWidth="1px"
@@ -22,24 +22,35 @@ const SingleBidCard = ({ bid }) => {
             {bid.user.username}
           </Text>
           <VStack gap={"20px"}>
-            {
-              bid.user._id===user?._id&&<MdDeleteOutline size={"20px"} onClick={()=>dispatch(deleteBid({ bidId:bid._id, productId:bid.product }))} />
-
-            }
-            {
-              user?.role==="admin"&&<ConfirmSale name={bid.user.username} amount={bid.amount} bidId={bid._id} />
-            }
-          <Badge
-            colorScheme={
-              bid.status === "accepted"
-                ? "green"
-                : bid.status === "rejected"
-                ? "red"
-                : "yellow"
-            }
-          >
-            {bid.status}
-          </Badge>
+            {bid.user._id === user?._id&&bid.status=="pending" && (
+              <MdDeleteOutline
+                size={"20px"}
+                onClick={() =>
+                  dispatch(
+                    deleteBid({ bidId: bid._id, productId: bid.productId })
+                  )
+                }
+              />
+            )}
+            {user?.role === "admin" &&bid.status=="pending"&& (
+              <ConfirmSale
+                name={bid.user.username}
+                amount={bid.amount}
+                bidId={bid._id}
+                productId={bid.product}
+              />
+            )}
+            <Badge
+              colorScheme={
+                bid.status === "successful"
+                  ? "green"
+                  : bid.status === "canceled"
+                  ? "red"
+                  : "yellow"
+              }
+            >
+              {bid.status}
+            </Badge>
           </VStack>
         </HStack>
         <Text fontSize="sm" color="gray.600">

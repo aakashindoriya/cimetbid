@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchProducts, createProduct, getProductById, updateProduct, deleteProduct } from '../actions/productAction';
-import { createBid, updateBid, deleteBid } from '../actions/bidAction';
-
+import { createBid, updateBid, deleteBid, confirmBid } from '../actions/bidAction';
+import { toast } from 'react-toastify'
 const initialState = {
   products: [],
   selectedProduct: null,
@@ -9,6 +9,8 @@ const initialState = {
   bidStatus: 'idle',
   error: null,
   bidError: null,
+  selectedProductError:null,
+  selectedProductLoading:false,
 };
 
 const productSlice = createSlice({
@@ -34,10 +36,12 @@ const productSlice = createSlice({
       .addCase(createProduct.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.products.push(action.payload);
+        toast.success(`project created successfully`)
       })
       .addCase(createProduct.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
+        toast.error(`something went wrong`)
       })
       .addCase(getProductById.pending, (state) => {
         state.status = 'loading';
@@ -85,10 +89,12 @@ const productSlice = createSlice({
         if (productIndex !== -1) {
           state.products[productIndex].bids.push(action.payload);
         }
+        toast.success(`bid crated successfully`)
       })
       .addCase(createBid.rejected, (state, action) => {
         state.bidStatus = 'failed';
         state.bidError = action.payload;
+        toast.error(`Error adding  bid: ${action.payload.message}`)
       })
       .addCase(updateBid.pending, (state) => {
         state.bidStatus = 'loading';
@@ -117,7 +123,13 @@ const productSlice = createSlice({
       .addCase(deleteBid.rejected, (state, action) => {
         state.bidStatus = 'failed';
         state.bidError = action.payload;
-      });
+      })
+      .addCase(confirmBid.fulfilled,(state,action)=>{
+        const {product, successfulBid}=action.payload
+        state.bidError=false,
+        state.selectedProduct=product
+        toast.success(`bid confirmed`)
+      })
   },
 });
 

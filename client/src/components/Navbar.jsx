@@ -15,6 +15,7 @@ import {
   Stack,
   useColorMode,
   Center,
+  Text,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -41,6 +42,7 @@ export default function Navbar() {
           <Box>
             <NavLink to="/">Logo</NavLink>
           </Box>
+          { user.role==="admin"&&<Text>Admin panal</Text>}
 
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>

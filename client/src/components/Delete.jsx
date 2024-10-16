@@ -12,34 +12,34 @@ import {
     useDisclosure,
     useToast,
   } from "@chakra-ui/react";
-  import { useState } from "react";
   import { useDispatch } from "react-redux";
-  import { confirmBid, createBid } from "../redux/actions/bidAction";
+import { deleteProduct } from "../redux/actions/productAction";
   
-  export default function ConfirmSale({name,amount,bidId,productId}) {
-    console.log(bidId,productId,"in confirm sale")
+  export default function Delete({productId}) {
+    console.log(productId)
     const { isOpen, onOpen, onClose } = useDisclosure();
     const dispatch = useDispatch();
     const toast = useToast();
     return (
       <>
         <Button
+          fontSize={"sm"}
           onClick={onOpen}
           colorScheme="black"
           variant={"outline"}
           width={"full"}
         >
-          Sell
+          Delete
         </Button>
   
         <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Sell Product</ModalHeader>
+            <ModalHeader>Delete Product</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
               <Text>
-                Are you sure you want to sell this product to mr/mrs {name} at price of ${amount}
+                Are you sure you want to delete this product 
               </Text>
             </ModalBody>
   
@@ -48,7 +48,7 @@ import {
                 colorScheme="blue"
                 mr={3}
                 onClick={() => {
-                  dispatch(confirmBid({ productId, bidId })).then(() => {   
+                  dispatch(deleteProduct({ productId})).then(() => {
                     onClose();
                   });
                 }}

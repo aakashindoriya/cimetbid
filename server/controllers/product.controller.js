@@ -118,8 +118,8 @@ const deleteProduct = async (req, res) => {
 };
 
 const confirmBid = async (req, res) => {
-  const { productId, bidId } = req.params;
-
+  const { productId, bidId } = req.body;
+  
   try {
     const product = await Product.findById(productId);
     if (!product) {
@@ -143,11 +143,14 @@ const confirmBid = async (req, res) => {
 
     product.status = 'sold';
     await product.save();
-
+    await product.populate({
+      path: 'bids',
+      populate: { path: 'user', select: 'username email' },
+    })
     res.status(200).send({ message: 'Bid confirmed successfully', product, successfulBid });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
 };
 
-module.exports = {createProduct,deleteProduct,getProductById,updateProduct,getProducts}
+module.exports = {createProduct,deleteProduct,getProductById,updateProduct,getProducts,confirmBid }
