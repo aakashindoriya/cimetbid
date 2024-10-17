@@ -25,7 +25,9 @@ const createBid = async (req, res) => {
 
     product.bids.push(bid._id);
     await product.save();
-
+    const activeUsers=req.activeUsers
+    const adminSoketid=activeUsers.get(process.env.ADMINUSERID)
+    req.io.to(adminSoketid).emit("newBid",{bid,product})
     res.status(201).send({ message: 'Bid placed successfully', bid });
   } catch (error) {
     console.error('Error in createBid:', error);
@@ -81,7 +83,7 @@ const deleteBid = async (req, res) => {
 const getUserBids = async (req, res) => {
   try {
     const userId = req.user._id;  
-    const bids = await Bid.find({ user: userId }).populate('product', 'title type startingPrice photos');
+    const bids = await Bid.find({ user: userId }).sort({createdAt:-1}).populate('product', 'title type startingPrice photos');
     res.status(200).send(bids);
   } catch (error) {
     res.status(500).send({ message: 'Server error' });

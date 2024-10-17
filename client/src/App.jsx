@@ -1,15 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import SingleBidCard from './components/SingleBidCard';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import { ToastContainer } from 'react-toastify'
-
+import socket from './utils/soket'
+import { useDispatch, useSelector } from 'react-redux';
+import { newProduct } from './redux/slices/productSlice';
 
 const App = () => {
+  const [notification,setNotification]=useState([])
+  const {user}=useSelector(store=>store.auth)
+  const dispatch=useDispatch()
+useEffect(()=>{
+  if(user){
+    socket.emit("login", user._id)
+  }
+},[user])
+useEffect(()=>{
+  socket.on("newProduct",(data)=>{
+    dispatch(newProduct(data))
+  })
+  socket.on("newBid",(data)=>{
+    setNotification([data,...notification])
+  })
+},[])
   return (
     <div>
-      <Navbar />
+      <Navbar notification={notification} />
       <Outlet />
       <Footer />
       

@@ -16,19 +16,27 @@ import {
   useColorMode,
   Center,
   Text,
+  Heading,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../redux/actions/authAction";
+import { useEffect, useState } from "react";
+import Notification from "./Notification";
 
 
-export default function Navbar() {
+export default function Navbar({notification}) {
+  const [show,setShow]=useState(false)
+
   const { user, token } = useSelector((store) => store.auth);
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  useEffect(()=>{
+    setShow(notification.length?true:false)
+  },[notification])
   return (
     <>
       <Box
@@ -43,9 +51,11 @@ export default function Navbar() {
             <NavLink to="/">Logo</NavLink>
           </Box>
           { user?.role==="admin"&&<Text>Admin panal</Text>}
-
+          
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>
+              <Notification show={show} setShow={setShow} notification={notification} />
+    
               <Button onClick={toggleColorMode}>
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button>

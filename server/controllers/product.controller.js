@@ -26,6 +26,7 @@ const createProduct = async (req, res) => {
     productData.photos = photos || [];
     console.log(productData)
     const product = await  Product.create(productData);
+    req.io.emit("newProduct", product)
     res.status(201).send(product);
   } catch (error) {
     console.error('Error in createProduct:', error);
