@@ -22,7 +22,7 @@ const SingleBidCard = ({ bid }) => {
             {bid.user.username}
           </Text>
           <VStack gap={"20px"}>
-            {bid.user._id === user?._id&&bid.status=="pending" && (
+            {bid.user._id === user?._id && bid.status == "pending" && (
               <MdDeleteOutline
                 size={"20px"}
                 onClick={() =>
@@ -32,7 +32,7 @@ const SingleBidCard = ({ bid }) => {
                 }
               />
             )}
-            {user?.role === "admin" &&bid.status=="pending"&& (
+            {user?.role === "admin" && bid.status == "pending" && (
               <ConfirmSale
                 name={bid.user.username}
                 amount={bid.amount}

@@ -42,7 +42,6 @@ export default function SignupCard() {
 
   const onSubmit = (data) => {
     const { name, email, password } = data
-    console.log(name,email,password)
     dispatch(registerUser({ username: name, email, password }))
     reset()
   }

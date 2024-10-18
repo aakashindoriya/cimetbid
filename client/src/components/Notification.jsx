@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Divider,
   Heading,
   HStack,
   Image,
@@ -16,8 +15,10 @@ import {
 import React from "react";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-const Notification = ({ show, setShow, notification }) => {
-    const navigate=useNavigate()
+import BidNotification from "./BidNotification";
+import ProductNotification from "./ProductNotification";
+const Notification = ({ show, setShow, notification,type }) => {
+  const navigate = useNavigate();
 
   return (
     <Menu
@@ -54,32 +55,11 @@ const Notification = ({ show, setShow, notification }) => {
         </Heading>
         <MenuDivider />
         {notification?.length &&
-          notification.map((el) => (
-            <>
-              <MenuItem key={el._id} onClick={()=>navigate(`product/${el.product._id}`)}> 
-              <HStack spacing={4}>
-                <Image
-                  src={el.product.photos[0]}
-                  alt={el.product.title}
-                  boxSize="100px"
-                  objectFit="cover"
-                />
-                <VStack align="start">
-                  <Text fontWeight="bold" fontSize="lg">
-                    {el.product.title}
-                  </Text>
-                  <Text>Type: {el.product.type}</Text>
-                  <Text>Starting Price: ${el.product.startingPrice}</Text>
-                </VStack>
-              </HStack>
-              
-              <Text>Bid Amount: ${el.bid.amount}</Text>
-              
-
-              <MenuDivider />
-              </MenuItem>
-            </>
-          ))}
+          notification.map((el) => {
+            if(type==="newBid")return <BidNotification el={el} navigate={navigate}/>
+            if(type==="newProduct")return <ProductNotification el={el} navigate={navigate} />
+          }
+          )}
       </MenuList>
     </Menu>
   );

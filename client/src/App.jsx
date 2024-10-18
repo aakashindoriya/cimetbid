@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { newProduct } from './redux/slices/productSlice';
 
 const App = () => {
-  const [notification,setNotification]=useState([])
+  const [notification,setNotification]=useState({notification:[],type:null})
   const {user}=useSelector(store=>store.auth)
   const dispatch=useDispatch()
 useEffect(()=>{
@@ -18,14 +18,15 @@ useEffect(()=>{
 useEffect(()=>{
   socket.on("newProduct",(data)=>{
     dispatch(newProduct(data))
+    setNotification({...notification,notification:[data,...notification.notification],type:"newProduct"})
   })
   socket.on("newBid",(data)=>{
-    setNotification([data,...notification])
+    setNotification({...notification,notification:[data,...notification.notification],type:"newBid"})
   })
 },[])
   return (
     <div>
-      <Navbar notification={notification} />
+      <Navbar notification={notification.notification} type={notification.type} />
       <Outlet />
       <Footer />
       

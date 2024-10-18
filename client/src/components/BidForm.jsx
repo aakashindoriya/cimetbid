@@ -9,7 +9,6 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
-  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -20,7 +19,6 @@ export default function BidForm({ productId }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [bid, setBid] = useState("");
   const dispatch = useDispatch();
-  const toast = useToast();
   const navigate = useNavigate();
   return (
     <>

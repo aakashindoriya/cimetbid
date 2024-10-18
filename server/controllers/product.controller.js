@@ -24,9 +24,19 @@ const createProduct = async (req, res) => {
       productData.vehicleType = vehicleType;
     }
     productData.photos = photos || [];
-    console.log(productData)
     const product = await  Product.create(productData);
-    req.io.emit("newProduct", product)
+    const activeUsers=req.activeUsers
+    const filterUser=Array.from(activeUsers.values())
+    
+    filterUser.forEach((el)=>{
+      if(el!==activeUsers.get(process.env.ADMINUSERID)){
+        req.io.to(el).emit("newProduct", product)
+      }else{
+        console.log(activeUsers,process.env.ADMINUSERID)
+      }
+    })
+
+    
     res.status(201).send(product);
   } catch (error) {
     console.error('Error in createProduct:', error);

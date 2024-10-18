@@ -26,12 +26,10 @@ import { useEffect, useState } from "react";
 import Notification from "./Notification";
 
 
-export default function Navbar({notification}) {
+export default function Navbar({notification,type}) {
   const [show,setShow]=useState(false)
-
-  const { user, token } = useSelector((store) => store.auth);
+  const { user } = useSelector((store) => store.auth);
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(()=>{
@@ -48,13 +46,13 @@ export default function Navbar({notification}) {
       >
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Box>
-            <NavLink to="/">Logo</NavLink>
+            <NavLink to="/">CIMET</NavLink>
           </Box>
           { user?.role==="admin"&&<Text>Admin panal</Text>}
           
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>
-              <Notification show={show} setShow={setShow} notification={notification} />
+              <Notification show={show} setShow={setShow} notification={notification} type={type}/>
     
               <Button onClick={toggleColorMode}>
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}

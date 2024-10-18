@@ -17,7 +17,7 @@ const SingleProductCard = ({ product }) => {
   const { user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
 
-  const bgColor = useColorModeValue("white", "gray.700"); 
+  const bgColor = useColorModeValue("white", "gray.700");
 
   return (
     <Box
@@ -29,7 +29,9 @@ const SingleProductCard = ({ product }) => {
       boxShadow="lg"
       w={{ base: "100%", sm: "100%", md: "45%", lg: "30%" }}
       mx="auto"
-      bg={bgColor}  
+      bg={bgColor}
+      display={"grid"}
+      alignItems={"center"}
     >
       {product.photos?.[0] && (
         <Image
@@ -37,10 +39,12 @@ const SingleProductCard = ({ product }) => {
           onClick={() => navigate("product/" + product._id)}
           src={product.photos[0]}
           alt={product.title}
+          m="auto"
           mb={4}
           borderRadius="md"
-          boxSize="275px"  
-          objectFit="cover"  
+          boxSize="275px"
+          objectFit="cover"
+
         />
       )}
       <VStack align="start" spacing={3}>
@@ -65,15 +69,17 @@ const SingleProductCard = ({ product }) => {
         {user?.role === "admin" && (
           <HStack maxW="100%">
             <Button
-            colorScheme="black"
-            variant={"outline"}
-            width={"full"}
-            fontSize={"sm"}
-            onClick={() => navigate("/admin/create-product?id=" + product._id)}
-          >
-            Edit Product
-          </Button>
-          <Delete productId={product._id} />
+              colorScheme="black"
+              variant={"outline"}
+              width={"full"}
+              fontSize={"sm"}
+              onClick={() =>
+                navigate("/admin/create-product?id=" + product._id)
+              }
+            >
+              Edit Product
+            </Button>
+            <Delete productId={product._id} />
           </HStack>
         )}
       </VStack>
