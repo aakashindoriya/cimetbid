@@ -8,7 +8,9 @@ const request = supertest(app);
 beforeAll(async () => {
   // Set environment to test and connect to the test database
   process.env.NODE_ENV = 'test';
-  await mongoose.connect(process.env.MONGOURL);
+  await mongoose.connect(process.env.MONGOURLTEST);
+  // await server.listen(process.env.PORT || 8082);
+  
 });
 
 afterAll(async () => {

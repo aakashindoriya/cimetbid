@@ -10,16 +10,14 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
   useColorModeValue,
   Stack,
   useColorMode,
   Center,
   Text,
-  Heading,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import {  NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../redux/actions/authAction";
 import { useEffect, useState } from "react";
@@ -45,7 +43,7 @@ export default function Navbar({notification,type}) {
         zIndex={"10"}
       >
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <Box>
+          <Box >
             <NavLink to="/">CIMET</NavLink>
           </Box>
           { user?.role==="admin"&&<Text>Admin panal</Text>}

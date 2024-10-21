@@ -16,7 +16,7 @@ describe("MongoDB Connection", () => {
   });
 
   test("connects to the local MongoDB database", async () => {
-    await mongoose.connect(process.env.MONGOURL);
+    await mongoose.connect(process.env.MONGOURLTEST);
 
     const dbState = mongoose.connection.readyState;
     expect(dbState).toBe(1); // 1 means 'connected'
@@ -26,7 +26,7 @@ describe("MongoDB Connection", () => {
   test("can perform database operations", async () => {
     // Ensure we're connected
     if (mongoose.connection.readyState !== 1) {
-      await mongoose.connect(process.env.MONGOURL);
+      await mongoose.connect(process.env.MONGOURLTEST);
     }
 
     // Define a simple schema

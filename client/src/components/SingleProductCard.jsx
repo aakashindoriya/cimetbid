@@ -67,7 +67,7 @@ const SingleProductCard = ({ product }) => {
         {!user && <Text>Please log in to place a bid</Text>}
         {user && user?.role !== "admin" && <BidForm productId={product._id} />}
         {user?.role === "admin" && (
-          <HStack maxW="100%">
+          <HStack w="100%" alignItems={"center"} justifyContent={"center"} >
             <Button
               colorScheme="black"
               variant={"outline"}

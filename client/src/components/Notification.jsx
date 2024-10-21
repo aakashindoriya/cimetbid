@@ -54,8 +54,8 @@ const Notification = ({ show, setShow, notification,type }) => {
           Notifications
         </Heading>
         <MenuDivider />
-        {notification?.length &&
-          notification.map((el) => {
+        {
+          notification?.map((el) => {
             if(type==="newBid")return <BidNotification el={el} navigate={navigate}/>
             if(type==="newProduct")return <ProductNotification el={el} navigate={navigate} />
           }

@@ -12,7 +12,7 @@ const request = supertest(app);
 describe("User API", () => {
   beforeAll(async () => {
     // Connect to a test database
-    await mongoose.connect(process.env.MONGOURL);
+    await mongoose.connect(process.env.MONGOURLTEST);
   });
 
   afterAll(async () => {

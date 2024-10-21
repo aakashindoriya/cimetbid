@@ -4,6 +4,7 @@ const authMiddleware = (req, res, next) => {
 
     if (process.env.NODE_ENV === 'test') {
         req.user = { id: 'adminTestId', role: 'admin' }; // Mock user info
+        
         return next();
     }
    

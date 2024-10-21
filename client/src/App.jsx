@@ -7,26 +7,35 @@ import { useDispatch, useSelector } from 'react-redux';
 import { newProduct } from './redux/slices/productSlice';
 
 const App = () => {
-  const [notification,setNotification]=useState({notification:[],type:null})
+  const [notification,setNotification]=useState({arr:[],type:null})
+
   const {user}=useSelector(store=>store.auth)
   const dispatch=useDispatch()
+  console.log(notification,"in app.jsx")
 useEffect(()=>{
   if(user){
     socket.emit("login", user._id)
   }
 },[user])
-useEffect(()=>{
-  socket.on("newProduct",(data)=>{
-    dispatch(newProduct(data))
-    setNotification({...notification,notification:[data,...notification.notification],type:"newProduct"})
+useEffect(() => {
+  socket.on("newProduct", (data) => {
+    dispatch(newProduct(data));
+    setNotification((prev) => ({
+      arr: [data, ...prev.arr],
+      type: "newProduct",
+    }));
   })
-  socket.on("newBid",(data)=>{
-    setNotification({...notification,notification:[data,...notification.notification],type:"newBid"})
+
+  socket.on("newBid", (data) => {
+    setNotification((prev) => ({
+      arr: [data, ...prev.arr],
+      type: "newBid",
+    }))
   })
 },[])
   return (
     <div>
-      <Navbar notification={notification.notification} type={notification.type} />
+      <Navbar notification={notification.arr} type={notification.type} />
       <Outlet />
       <Footer />
       
