@@ -44,7 +44,10 @@ const SingleProductCard = ({ product }) => {
           borderRadius="md"
           boxSize="275px"
           objectFit="cover"
-
+          onError={(e) => {
+            e.target.onerror = null; 
+            e.target.src = "/path/to/placeholder.jpg"; 
+          }}
         />
       )}
       <VStack align="start" spacing={3}>
