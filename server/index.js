@@ -48,7 +48,7 @@ app.use("/bid", bidRoutes);
 console.log(activeUsers);
 
 const PORT = process.env.PORT || 8080;
-server.listen(PORT, async () => {
+process.env.NODE_ENV === 'test'||server.listen(PORT, async () => {
   await connect();
 //   console.log(`listenning on Port :${PORT}`);
 });
