@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const supertest = require("supertest");
 const { app, server } = require("../index.js");
 const Product = require("../models/product.model");
+const User =require("../models/user.model.js")
 const Bid = require("../models/bid.model");
 const request = supertest(app);
 
@@ -105,32 +106,38 @@ describe("Product API", () => {
     expect(deletedProduct).toBeNull();
   });
 
-//   test("should confirm a bid", async () => {
-//     const product = await Product.create({
-//       type: "property",
-//       title: "Bidding Property",
-//       description: "Property for bids",
-//       startingPrice: 7000,
-//     });
+  test("should confirm a bid", async () => {
+    const user=await User.create({
+      username:"dummy",
+      email:"dummy@email.com",
+      password:"dummy@123"
+    })
+    const product = await Product.create({
+      type: "property",
+      title: "Bidding Property",
+      description: "Property for bids",
+      startingPrice: 7000,
+    });
 
-//     const bid = await Bid.create({
-//       product: product._id,
-//       amount: 8000,
-//       user: mongoose.Types.ObjectId(), // Replace with a valid user ID
-//       status: "pending",
-//     });
+    const bid = await Bid.create({
+      product: product._id,
+      amount: 8000,
+      user: user._id, // Replace with a valid user ID
+      status: "pending",
+    });
 
-//     const requestBody = {
-//       productId: product._id,
-//       bidId: bid._id,
-//     };
+    const requestBody = {
+      productId: product._id,
+      bidId: bid._id,
+    };
 
-//     const response = await request
-//       .put("/product/bid-confirm")
-//       .send(requestBody)
-//       .expect(200);
+    const response = await request
+      .put("/product/bid-confirm")
+      .send(requestBody)
+      .expect(200);
 
-//     expect(response.body.successfulBid._id).toBe(String(bid._id));
-//     expect(response.body.product.status).toBe("sold");
-//   });
+    expect(response.body.successfulBid._id).toBe(String(bid._id));
+    expect(response.body.product.status).toBe("sold");
+    await User.deleteOne({_id:user._id})
+  });
 });
