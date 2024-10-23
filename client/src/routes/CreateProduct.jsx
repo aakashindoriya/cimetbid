@@ -39,7 +39,7 @@ const ProductForm = () => {
   const dispatch = useDispatch();
   const [urlparams] = useSearchParams();
   const id = urlparams.get("id");
-  const [pic, setPic] = useState("");
+  const [pic, setPic] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvtLcEbK72DdI2-0yjNOHLvzQeJqLRKhirxA&s");
   const navigate = useNavigate();
 
   useEffect(() => {
