@@ -53,7 +53,7 @@ const SingleProductCard = ({ product }) => {
       <VStack align="start" spacing={3}>
         <HStack justify="space-between" width="100%">
           <Text fontWeight="bold" fontSize="xl">
-            {product.title}
+            {product.title[0].toUpperCase()+product.title.slice(1)}
           </Text>
           <Badge colorScheme={product.status === "available" ? "green" : "red"}>
             {product.status}

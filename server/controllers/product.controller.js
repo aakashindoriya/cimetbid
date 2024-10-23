@@ -70,11 +70,10 @@ const getProductById = async (req, res) => {
         path: 'bids',
         populate: { path: 'user', select: 'username email' },
       });
-
+  
     if (!product) {
       return res.status(404).send({ message: 'Product not found' });
     }
-
     res.status(200).send(product);
   } catch (error) {
     console.error('Error in getProductById:', error);

@@ -14,6 +14,9 @@ import {
   Image,
   VStack,
   HStack,
+  Skeleton,
+  Text,
+  
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProduct, getProductById, updateProduct } from '../redux/actions/productAction';
@@ -40,8 +43,9 @@ const ProductForm = () => {
   const [urlparams] = useSearchParams();
   const id = urlparams.get("id");
   const [pic, setPic] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvtLcEbK72DdI2-0yjNOHLvzQeJqLRKhirxA&s");
+  const [picLoading,setPicLoading]=useState(false)
   const navigate = useNavigate();
-
+ 
   useEffect(() => {
     if (id) {
       if (!selectedProduct || selectedProduct?._id !== id) {
@@ -133,9 +137,10 @@ const ProductForm = () => {
               type="file"
               p={1.5}
               accept="image/*"
-              onChange={(e) => uplodeFile(e.target.files[0], setPic)}
+              onChange={(e) => uplodeFile(e.target.files[0], setPic,setPicLoading)}
+
             />
-            <Image src={pic}  maxW={"20%"}/>
+            {picLoading?<Text>Loading...</Text>:<Image src={pic}  maxW={"20%"}/>}
             </HStack>
           </FormControl>
           <FormControl mb={4}>
