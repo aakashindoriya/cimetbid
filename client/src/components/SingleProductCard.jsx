@@ -53,9 +53,9 @@ const SingleProductCard = ({ product }) => {
       <VStack align="start" spacing={3}>
         <HStack justify="space-between" width="100%">
           <Text fontWeight="bold" fontSize="xl">
-            {product.title[0].toUpperCase()+product.title.slice(1)}
+            {product.title[0].toUpperCase()+product.title.slice(1,13)}{product.title.length>=15?"...":""}
           </Text>
-          <Badge colorScheme={product.status === "available" ? "green" : "red"}>
+          <Badge size={"sm"} fontSize={"x-small"} colorScheme={product.status === "available" ? "green" : "red"}>
             {product.status}
           </Badge>
         </HStack>
@@ -64,7 +64,7 @@ const SingleProductCard = ({ product }) => {
             ? product.address
             : `${product.vehicleType} | ${product.number}`}
         </Text>
-        <Text fontWeight="bold" fontSize="lg">
+        <Text fontWeight="bold" fontSize="m">
           Starting Price: ${product.startingPrice}
         </Text>
         {!user && <Text>Please log in to place a bid</Text>}

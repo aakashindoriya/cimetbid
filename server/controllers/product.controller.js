@@ -46,7 +46,7 @@ const createProduct = async (req, res) => {
 
 const getProducts = async (req, res) => {
     try {
-      const {page,limit,type,search}=req.query
+      const {page=1,limit=5,type,search}=req.query
       let Query={
         status:"available"
       }
@@ -58,7 +58,7 @@ const getProducts = async (req, res) => {
           populate: { path: 'user', select: 'username email' }  
         })
         .sort({ createdAt: -1 })
-      const totalPage=(await Product.find(Query)).length
+      const totalPage=Math.ceil(((await Product.find(Query)).length)/limit)
       res.status(200).send({products,totalPage});
     } catch (error) {
       console.error('Error in getProducts:', error);

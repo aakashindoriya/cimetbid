@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Box,
   Button,
@@ -45,7 +45,7 @@ const ProductForm = () => {
   const [pic, setPic] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvtLcEbK72DdI2-0yjNOHLvzQeJqLRKhirxA&s");
   const [picLoading,setPicLoading]=useState(false)
   const navigate = useNavigate();
- 
+  const picref=useRef(null)
   useEffect(() => {
     if (id) {
       if (!selectedProduct || selectedProduct?._id !== id) {
@@ -85,7 +85,10 @@ const ProductForm = () => {
           position: 'top',
         });
         setFormData(init);
-        setPic("");
+        setPic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvtLcEbK72DdI2-0yjNOHLvzQeJqLRKhirxA&s");
+        if (picref.current) {
+          picref.current.value = null;
+        }
       });
     }
   };
@@ -98,6 +101,7 @@ const ProductForm = () => {
       justify="center"
       minH="100vh"
       bg={useColorModeValue('gray.50', 'gray.800')}
+      p="5"
     >
       <Box
         p={5}
@@ -135,6 +139,7 @@ const ProductForm = () => {
             <HStack>
             <Input
               type="file"
+              ref={picref}
               p={1.5}
               accept="image/*"
               onChange={(e) => uplodeFile(e.target.files[0], setPic,setPicLoading)}
