@@ -22,6 +22,7 @@ const initialState = {
   bidError: null,
   selectedProductError: null,
   selectedProductLoading: false,
+  totalpages:10
 };
 
 const productSlice = createSlice({
@@ -39,7 +40,8 @@ const productSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.products = action.payload;
+        state.products = action.payload.products;
+        state.totalpages=action.payload.totalPage
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = "failed";

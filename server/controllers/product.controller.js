@@ -46,14 +46,20 @@ const createProduct = async (req, res) => {
 
 const getProducts = async (req, res) => {
     try {
-      const products = await Product.find({ status: 'available' })
+      const {page,limit,type,search}=req.query
+      let Query={
+        status:"available"
+      }
+      if(type)Query.type=type
+      if(search)Query.title={ $regex: new RegExp(search, 'i') }
+      const products = await Product.find(Query).skip((page-1)*limit).limit(limit)
         .populate({
           path: 'bids', 
           populate: { path: 'user', select: 'username email' }  
         })
-        .sort({ createdAt: -1 });
-  
-      res.status(200).send(products);
+        .sort({ createdAt: -1 })
+      const totalPage=(await Product.find(Query)).length
+      res.status(200).send({products,totalPage});
     } catch (error) {
       console.error('Error in getProducts:', error);
       res.status(500).send({ message: 'Server error' });

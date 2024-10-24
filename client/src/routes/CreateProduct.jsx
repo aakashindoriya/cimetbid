@@ -211,10 +211,12 @@ const ProductForm = () => {
 
           <Button mt={4}  bg={'blue.400'}
                   color={'white'}
+                  disabled={picLoading}
                   _hover={{
                     bg: 'blue.500',
+                   
                   }}  type="submit" w={"full"}>
-            Submit
+            {picLoading?"Loading..":"Submit"}
           </Button>
         </form>
       </Box>
