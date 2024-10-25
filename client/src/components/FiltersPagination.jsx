@@ -3,12 +3,9 @@ import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { fetchProducts } from "../redux/actions/productAction"
 
-const FiltersPagination = () => {
+const FiltersPagination = ({filters,setFilters}) => {
     const dispatch=useDispatch()
-    let [filters,setFilters]=useState({
-      search:"",
-      type:""
-    })
+    
     function handleFilterChange(e){
         setFilters({...filters,[e.target.name]:e.target.value})
     }

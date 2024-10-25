@@ -3,10 +3,10 @@ import axios from "axios";
 
 export const fetchProducts = createAsyncThunk(
   "product/fetchProducts",
-  async ({type,search}, { rejectWithValue }) => {
+  async ({type,search,page=1}, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_BASEURL}/product?type=${type}&search=${search}`
+        `${import.meta.env.VITE_BASEURL}/product?type=${type}&search=${search}&page=${page}`
       );
       return data;
     } catch (error) {

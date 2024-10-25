@@ -46,7 +46,7 @@ const createProduct = async (req, res) => {
 
 const getProducts = async (req, res) => {
     try {
-      const {page=1,limit=5,type,search}=req.query
+      const {page=1,limit=4,type,search}=req.query
       let Query={
         status:"available"
       }
@@ -59,7 +59,7 @@ const getProducts = async (req, res) => {
         })
         .sort({ createdAt: -1 })
       const totalPage=Math.ceil(((await Product.find(Query)).length)/limit)
-      res.status(200).send({products,totalPage});
+      res.status(200).send({products,totalPage,page:Number(page)});
     } catch (error) {
       console.error('Error in getProducts:', error);
       res.status(500).send({ message: 'Server error' });
@@ -97,7 +97,7 @@ const updateProduct = async (req, res) => {
     }
     const updates = req.body;
     if (product.type === 'property') {
-      const { address, photos } = updates;
+      const { address } = updates;
       if (address) product.address = address;
       
     } else if (product.type === 'vehicle') {
@@ -107,7 +107,7 @@ const updateProduct = async (req, res) => {
       if (vehicleType) product.vehicleType = vehicleType;
     }
     if (updates.photos){
-      product.photos=updates.photos
+      product.photos[0]=updates.photos
     }
     if (updates.title) product.title = updates.title;
     if (updates.description) product.description = updates.description;

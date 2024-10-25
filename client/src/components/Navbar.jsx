@@ -46,7 +46,7 @@ export default function Navbar({notification,type}) {
           <Box >
             <NavLink to="/">CIMET</NavLink>
           </Box>
-          { user?.role==="admin"&&<Text>Admin panal</Text>}
+          { user?.role==="admin"&&<Text>Admin Dashboard</Text>}
           
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>

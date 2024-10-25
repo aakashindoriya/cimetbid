@@ -34,7 +34,8 @@ const SingleProductCard = ({ product }) => {
       alignItems={"center"}
     >
       {product.photos?.[0] && (
-        <Image
+        <Box pos="relative">
+          <Image
           _hover={{ cursor: "pointer", transform: "scale(1.05)" }}
           onClick={() => navigate("product/" + product._id)}
           src={product.photos[0]}
@@ -49,25 +50,29 @@ const SingleProductCard = ({ product }) => {
             e.target.src = "/path/to/placeholder.jpg"; 
           }}
         />
+        <Badge pos="absolute" top="3%" left="3%" fontSize={"9px"} colorScheme={product.status === "available" ? "green" : "red"}>
+            {product.status}
+          </Badge>
+        </Box>
       )}
       <VStack align="start" spacing={3}>
         <HStack justify="space-between" width="100%">
-          <Text fontWeight="bold" fontSize="xl">
-            {product.title[0].toUpperCase()+product.title.slice(1,13)}{product.title.length>=15?"...":""}
+          <Text fontWeight="bold" fontSize="lg">
+            {product.title[0].toUpperCase()+product.title.slice(1,14)}{product.title.length>=15?"...":""}
           </Text>
-          <Badge size={"sm"} fontSize={"x-small"} colorScheme={product.status === "available" ? "green" : "red"}>
-            {product.status}
-          </Badge>
+          
         </HStack>
+        
         <Text fontSize="sm" color="gray.600">
           {product.type === "property"
             ? product.address
             : `${product.vehicleType} | ${product.number}`}
         </Text>
+        
         <Text fontWeight="bold" fontSize="m">
           Starting Price: ${product.startingPrice}
         </Text>
-        {!user && <Text>Please log in to place a bid</Text>}
+        {!user && <Text fontSize={"sm"} color={"red.400"}>Please log in to place a bid</Text>}
         {user && user?.role !== "admin" && <BidForm productId={product._id} />}
         {user?.role === "admin" && (
           <HStack w="100%" alignItems={"center"} justifyContent={"center"} >

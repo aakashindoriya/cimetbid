@@ -32,7 +32,19 @@ export const registerUser = createAsyncThunk(
     }
   }
 );
-
-export const logoutUser = createAsyncThunk("auth/logout", () => {
-  return;
+ 
+export const logoutUser = createAsyncThunk("auth/logout", async(_,{rejectWithValue}) => {
+try {
+    let {data}=await axios.get(`${import.meta.env.VITE_BASEURL}/user/logout`, {
+      headers: {
+        Authorization: JSON.parse(localStorage.getItem("auth"))?.token || "",
+      },
+    });
+    return data
+} catch (error) {
+  return rejectWithValue(
+    error.response?.data?.message || "Registration failed"
+  )
+}
+  
 });
