@@ -50,7 +50,7 @@ const SingleProductCard = ({ product }) => {
             e.target.src = "/path/to/placeholder.jpg"; 
           }}
         />
-        <Badge pos="absolute" top="3%" left="3%" fontSize={"9px"} colorScheme={product.status === "available" ? "green" : "red"}>
+        <Badge pos="absolute" top="3%" left="3%" fontSize={"9px"} color={useColorModeValue("white", "gray.700")} colorScheme={product.status === "available" ? "green" : "red"}>
             {product.status}
           </Badge>
         </Box>
