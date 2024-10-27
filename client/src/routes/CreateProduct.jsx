@@ -28,7 +28,6 @@ const init = {
   title: '',
   description: '',
   startingPrice: '',
-  status: 'available',
   number: '',
   vehicleType: '',
   address: '',
@@ -38,7 +37,6 @@ const init = {
 const ProductForm = () => {
   const [formData, setFormData] = useState(init);
   const { selectedProduct } = useSelector((store) => store.product);
-  const toast = useToast();
   const dispatch = useDispatch();
   const [urlparams] = useSearchParams();
   const id = urlparams.get("id");
@@ -52,7 +50,7 @@ const ProductForm = () => {
         dispatch(getProductById(id));
       } else {
         setFormData(selectedProduct);
-        setPic([selectedProduct.photos[0], ...pic]);
+        setPic(selectedProduct.photos[0]);
       }
     }
   }, [selectedProduct, id]);
@@ -65,25 +63,10 @@ const ProductForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (id === selectedProduct?._id) {
-      dispatch(updateProduct({ id, updates: { ...formData, photos: pic } })).then(() => {
-        toast({
-          title: `Product updated successfully`,
-          status: 'success',
-          duration: 500,
-          isClosable: true,
-          position: 'top',
-        });
+      dispatch(updateProduct({ id, updates: { ...formData, photos: [pic] } }))
         navigate("/admin");
-      });
     } else {
       dispatch(createProduct({ ...formData, photos: [pic] })).then(() => {
-        toast({
-          title: `Product added successfully`,
-          status: 'success',
-          duration: 500,
-          isClosable: true,
-          position: 'top',
-        });
         setFormData(init);
         setPic("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvtLcEbK72DdI2-0yjNOHLvzQeJqLRKhirxA&s");
         if (picref.current) {
@@ -120,6 +103,7 @@ const ProductForm = () => {
               value={formData.type}
               onChange={handleChange}
               placeholder="Select type"
+              disabled={selectedProduct?._id === id}
             >
               <option value="property">Property</option>
               <option value="vehicle">Vehicle</option>
@@ -165,18 +149,6 @@ const ProductForm = () => {
               value={formData.startingPrice}
               onChange={handleChange}
             />
-          </FormControl>
-
-          <FormControl mb={4}>
-            <FormLabel>Status</FormLabel>
-            <Select
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-            >
-              <option value="available">Available</option>
-              <option value="sold">Sold</option>
-            </Select>
           </FormControl>
 
           {formData.type === 'vehicle' && (

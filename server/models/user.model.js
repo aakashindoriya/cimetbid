@@ -17,7 +17,14 @@ const userSchema = new mongoose.Schema({
             message: 'Password must contain at least one letter, one number, and one special character',
           },
     },
-    username: { type: String, required: true },
+    username: { type: String, required: true ,
+      validate: {
+        validator: function(v) {
+          return /^[A-Za-z\s]+$/.test(v);
+        },
+        message: 'Invalid email address',
+      }
+    },
     role: {
         type: String,
         enum: ["admin", "customer"],

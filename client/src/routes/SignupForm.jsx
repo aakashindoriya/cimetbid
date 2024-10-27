@@ -96,7 +96,12 @@ export default function SignupCard() {
                     <FormLabel>Name</FormLabel>
                     <Input
                       type="text"
-                      {...register('name', { required: 'First Name is required' })}
+                      {...register('name', { required: 'First Name is required' ,
+                        pattern: {
+                          value: /^[A-Za-z\s]+$/,
+                          message: 'Invalid name',
+                        }
+                      })}
                     />
                     <FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
                   </FormControl>

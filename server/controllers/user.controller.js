@@ -11,9 +11,10 @@ const SIGNUP = async (req, res) => {
             return res.status(400).send({ message: 'User already exists' });
         }
         const hashedPassword = await argon2.hash(password);
-        user = await User.create({ username, email, password: hashedPassword },{password:0});
+        user = await User.create({ username, email, password: hashedPassword });
         const token = jwt.sign({ email, username, _id: user._id ,role:user.role}, process.env.JWT_SECRET);
-        res.status(201).send({ user, token });
+        const newuser={email,role:user.role,_id:user._id,username}
+        res.status(201).send({ user:newuser, token });
     } catch (err) {
         res.status(500).send({message:err.message});
     }

@@ -84,10 +84,13 @@ const productSlice = createSlice({
         if (index !== -1) {
           state.products[index] = action.payload;
         }
+        
+        toast.success(`project updated successfully`)
       })
       .addCase(updateProduct.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
+        toast.error(`something went wrong`);
       })
       .addCase(deleteProduct.pending, (state) => {
         state.status = "loading";

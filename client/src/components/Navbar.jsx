@@ -25,6 +25,7 @@ import Notification from "./Notification";
 
 
 export default function Navbar({notification,type}) {
+  const logoColor = useColorModeValue("gray.900", "gray.400")
   const [show,setShow]=useState(false)
   const { user } = useSelector((store) => store.auth);
   const { colorMode, toggleColorMode } = useColorMode();
@@ -36,23 +37,43 @@ export default function Navbar({notification,type}) {
   return (
     <>
       <Box
-        bg={useColorModeValue("gray.100", "gray.900")}
-        px={4}
+        bg={useColorModeValue("white", "gray.800")}
+        px={10}
         position="sticky"
         top="0px"
         zIndex={"10"}
+        minH="80px"
+        display="grid"
+        alignItems="center"
+        borderBottom="0.5px solid"
       >
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <Box >
-            <NavLink to="/">CIMET</NavLink>
-          </Box>
+        <Flex align="center" _hover={{ transform: "scale(1.05)", transition: "0.3s" ,cursor:"pointer"}} onClick={()=>navigate("/")}>
+            <Box
+              bg={logoColor}
+              w="10"
+              h="10"
+              rounded="full"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              mr={2}
+            >
+              <Text fontSize="xl" fontWeight="bold" color="white">
+                M
+              </Text>
+            </Box>
+            <Text fontSize="lg" fontWeight="bold" color={logoColor}>
+              Maruti Tech
+            </Text>
+          </Flex>
           { user?.role==="admin"&&<Text>Admin Dashboard</Text>}
           
           <Flex alignItems={"center"}>
             <Stack direction={"row"} spacing={7}>
               <Notification show={show} setShow={setShow} notification={notification} type={type}/>
     
-              <Button onClick={toggleColorMode}>
+              <Button onClick={toggleColorMode} variant={"outline"} colorScheme="black" rounded={"full"}>
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button>
 

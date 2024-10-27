@@ -107,7 +107,7 @@ const updateProduct = async (req, res) => {
       if (vehicleType) product.vehicleType = vehicleType;
     }
     if (updates.photos){
-      product.photos[0]=updates.photos
+      product.photos[0]=updates.photos[0]
     }
     if (updates.title) product.title = updates.title;
     if (updates.description) product.description = updates.description;
